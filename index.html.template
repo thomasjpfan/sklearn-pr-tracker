@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>stlite app</title>
+    <style>
+        table {
+            border: none;
+            border-collapse: collapse;
+            border-spacing: 0;
+            color: black;
+            table-layout: fixed;
+        }
+
+        table thead {
+            border-bottom: 1px solid black;
+            vertical-align: bottom;
+        }
+
+        table tr,
+        table th,
+        table td {
+            text-align: right;
+            vertical-align: middle;
+            padding: 0.5em 0.5em;
+            line-height: normal;
+            white-space: normal;
+            max-width: none;
+            border: none !important;
+        }
+
+        table th {
+            font-weight: bold;
+        }
+
+        table tbody tr:nth-child(odd) {
+            background: #f5f5f5;
+        }
+
+        table tbody tr:hover {
+            background: rgba(66, 165, 245, 0.2);
+        }
+
+        table.alternationg {
+            border: none;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        table.alternating td,
+        table.alternating tr {
+            border: none;
+        }
+
+        table.alternating tbody tr:nth-child(odd) {
+            background: #f0f0f0;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.34.0/build/stlite.css" />
+</head>
+
+<body>
+    <div id="root"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.34.0/build/stlite.js"></script>
+    <script>
+        stlite.mount(
+            `
+import streamlit as st
+import pandas as pd
+from io import StringIO
+
+st.set_page_config(layout="wide")
+
+FILE=StringIO(r'''
+$CSV_CONTENT
+''')
+
+results_df = pd.read_csv(FILE, parse_dates=["updated"])
+
+st.markdown("## $TARGET_REPO: Pull Requests Overview")
+
+col1, col2, col3 = st.columns([0.5, 0.25, 0.25])
+with col1:
+    sort_by = st.multiselect(
+        "Sort values by", options=results_df.columns, default=["additions"]
+    )
+with col2:
+    ascending = st.radio("Ascending?", options=("True", "False"), horizontal=True)
+with col3:
+    st.markdown("""Generated on $DATE
+[Source on GitHub](https://github.com/$TRACKER_REPO)
+""")
+
+output_df = results_df.sort_values(sort_by, ascending=(ascending == "True"))
+st.write(
+    output_df.style.hide().format({"updated": "{:%Y-%m-%d}"}).to_html(),
+    unsafe_allow_html=True,
+)
+`,
+            document.getElementById("root")
+        );
+    </script>
+</body>
+
+</html>
