@@ -1,8 +1,9 @@
 name: Build and deploy site
 
 on:
-  branch:
-    - main
+  push:
+    branches:
+      - main
   workflow_dispatch:
   schedule:
     - cron: "40 19 * * *"
