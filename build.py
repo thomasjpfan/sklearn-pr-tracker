@@ -5,6 +5,7 @@ import os
 import string
 import json
 import pandas as pd
+import html
 from io import StringIO
 from datetime import datetime, timezone
 
@@ -113,10 +114,12 @@ with open("index.html.template", "r") as f:
 
 utc_now = datetime.now(timezone.utc)
 
+target_repo = f"{REPO_OWNER}/{REPO_NAME}"
 output = template.substitute(
+    TARGET_REPO_ESCAPED=html.escape(target_repo),
     CSV_CONTENT=result_str,
     TRACKER_REPO=TRACKER_REPO,
-    TARGET_REPO=f"{REPO_OWNER}/{REPO_NAME}",
+    TARGET_REPO=target_repo,
     DATE=utc_now.strftime("%B %d, %Y"),
 )
 
