@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>$REPO_ESCAPED: Pull Requests Overview</title>
+    <title>$TARGET_REPO_ESCAPED: Pull Requests Overview</title>
     <style>
         table {
             border: none;
@@ -82,7 +82,7 @@ results_df = pd.read_csv(FILE, parse_dates=["updated"])
 
 st.markdown("## $TARGET_REPO: Pull Requests Overview")
 
-col1, col2, col3 = st.columns([0.5, 0.25, 0.25])
+col1, col2, col3 = st.columns([0.6, 0.2, 0.2])
 with col1:
     sort_by = st.multiselect(
         "Sort values by", options=results_df.columns, default=["additions"]
@@ -90,9 +90,7 @@ with col1:
 with col2:
     ascending = st.radio("Ascending?", options=("True", "False"), horizontal=True)
 with col3:
-    st.markdown("""Generated on $DATE
-[Source on GitHub](https://github.com/$TRACKER_REPO)
-""")
+    st.markdown("Generated on $DATE. [Source on GitHub](https://github.com/$TRACKER_REPO)")
 
 output_df = results_df.sort_values(sort_by, ascending=(ascending == "True"))
 st.write(
