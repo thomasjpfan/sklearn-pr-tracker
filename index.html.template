@@ -7,16 +7,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>$TARGET_REPO_ESCAPED: Pull Requests Overview</title>
     <style>
+        :root {
+            --font-color: black;
+            --background-alternating-1: #f5f5f5;
+            --background-alternating-2: #f0f0f0;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --font-color: white;
+                --background-alternating-1: #212121;
+                --background-alternating-2: black;
+            }
+        }
         table {
             border: none;
             border-collapse: collapse;
             border-spacing: 0;
-            color: black;
+            color: var(--font-color);
             table-layout: fixed;
         }
 
         table thead {
-            border-bottom: 1px solid black;
+            border-bottom: 1px solid var(--font-color);
             vertical-align: bottom;
         }
 
@@ -37,7 +49,7 @@
         }
 
         table tbody tr:nth-child(odd) {
-            background: #f5f5f5;
+            background: var(--background-alternating-1);
         }
 
         table tbody tr:hover {
@@ -56,7 +68,7 @@
         }
 
         table.alternating tbody tr:nth-child(odd) {
-            background: #f0f0f0;
+            background: var(--background-alternating-2);
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.34.0/build/stlite.css" />
