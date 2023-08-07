@@ -102,7 +102,7 @@ with col1:
 with col2:
     ascending = st.radio("Ascending?", options=("True", "False"), horizontal=True)
 with col3:
-    st.markdown("Generated on $DATE. [Source on GitHub](https://github.com/$TRACKER_REPO)")
+    st.markdown("Generated on $DATE.<br />[Source on GitHub](https://github.com/$TRACKER_REPO)", unsafe_allow_html=True)
 
 output_df = results_df.sort_values(sort_by, ascending=(ascending == "True"))
 st.write(
