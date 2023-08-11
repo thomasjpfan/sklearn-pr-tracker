@@ -84,7 +84,7 @@ import streamlit as st
 import pandas as pd
 from io import StringIO
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", page_title="$TARGET_REPO_ESCAPED: Pull Requests Overview")
 
 FILE=StringIO(r'''
 $CSV_CONTENT
