@@ -33,7 +33,7 @@ multi_choice = pn.widgets.MultiChoice(
 ascending = pn.widgets.RadioBoxGroup(
     options=[True, False],
     inline=True,
-    margin=(12, 8, 0, 8),
+    margin=(8, 8, 0, 8),
     width=110,
 )
 
