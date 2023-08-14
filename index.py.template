@@ -43,7 +43,7 @@ selector = pn.Column(
         pn.pane.Markdown("#### Ascending?", width=70, margin=(8, 8, 8, 8)),
         ascending,
         pn.pane.Markdown(
-            f"#### Generated on {DATE} [Source on GitHub](https://github.com/{TRACKER_REPO})",
+            f"#### Generated on {DATE}. [Source on GitHub](https://github.com/{TRACKER_REPO})",
             margin=(8, 8, 8, 8),
         ),
     ),
