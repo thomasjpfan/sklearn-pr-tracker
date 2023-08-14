@@ -35,7 +35,7 @@ query {
         deletions
         number
         totalCommentsCount
-        reviews(last: 1) {
+        reviews(last: 1, states:APPROVED) {
           totalCount
         }
       }
@@ -95,7 +95,7 @@ results_processed = [
         "additions": result["additions"],
         "deletions": result["deletions"],
         "comments": result["totalCommentsCount"],
-        "reviews": result["reviews"]["totalCount"],
+        "approvals": result["reviews"]["totalCount"],
         "updated": result["updatedAt"],
     }
     for result in results
