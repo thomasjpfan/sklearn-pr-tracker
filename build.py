@@ -138,7 +138,5 @@ subprocess.run(
         "pyodide-worker",
         "--out",
         "build",
-        "--requirements",
-        "requirements.txt",
     ]
 )
