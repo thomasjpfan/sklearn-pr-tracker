@@ -5,9 +5,9 @@ import os
 import string
 import json
 import pandas as pd
-import html
 from io import StringIO
 from datetime import datetime, timezone
+import subprocess
 
 REPO_NAME = "scikit-learn"
 REPO_OWNER = "scikit-learn"
@@ -106,23 +106,39 @@ results_df["updated"] = pd.to_datetime(results_df["updated"])
 
 buffer = StringIO()
 results_df.to_csv(buffer, index=False)
-result_str = buffer.getvalue().replace("`", "\`")
+result_str = buffer.getvalue()
 
-print("Creating index html page")
-with open("index.html.template", "r") as f:
+print("Creating index.py page")
+with open("index.py.template", "r") as f:
     template = string.Template(f.read())
 
 utc_now = datetime.now(timezone.utc)
 
 target_repo = f"{REPO_OWNER}/{REPO_NAME}"
 output = template.substitute(
-    TARGET_REPO_ESCAPED=html.escape(target_repo),
     CSV_CONTENT=result_str,
     TRACKER_REPO=TRACKER_REPO,
     TARGET_REPO=target_repo,
     DATE=utc_now.strftime("%B %d, %Y"),
 )
 
-print("Writing to build/index.html")
-with open("build/index.html", "w") as f:
+print("Writing to index.py")
+with open("index.py", "w") as f:
     f.write(output)
+
+
+subprocess.run(
+    [
+        sys.executable,
+        "-m",
+        "panel",
+        "convert",
+        "index.py",
+        "--to",
+        "pyodide-worker",
+        "--out",
+        "build",
+        "--requirements",
+        "requirements.txt",
+    ]
+)

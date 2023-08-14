@@ -1,2 +1,4 @@
-pr_response.json
+index.py
 build/index.html
+build/index.js
+pr_response.json

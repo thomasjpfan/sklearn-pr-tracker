@@ -1,0 +1,76 @@
+import panel as pn
+import json
+import pandas as pd
+from io import StringIO
+import hvplot.pandas  # Enable interactive
+
+pn.extension(sizing_mode="stretch_width", template="material")
+
+DATE = "$DATE"
+TARGET_REPO = "$TARGET_REPO"
+TRACKER_REPO = "$TRACKER_REPO"
+
+pn.state.template.param.update(
+    site=TARGET_REPO,
+    title="Pull Requests Overview",
+    header_background="#520b92",
+)
+
+FILE = StringIO(
+    r"""
+$CSV_CONTENT
+"""
+)
+
+results_df = pd.read_csv(FILE, parse_dates=["updated"])
+
+multi_choice = pn.widgets.MultiChoice(
+    name="Sort values by",
+    value=["additions"],
+    options=results_df.columns.to_list(),
+    margin=(8, 8, 0, 8),
+)
+ascending = pn.widgets.RadioBoxGroup(
+    options=[True, False],
+    inline=True,
+    margin=(12, 8, 0, 8),
+    width=110,
+)
+
+selector = pn.Column(
+    multi_choice,
+    pn.Row(
+        pn.pane.Markdown("#### Ascending?", width=70, margin=(8, 8, 8, 8)),
+        ascending,
+        pn.pane.Markdown(
+            f"#### Generated on {DATE} [Source on GitHub](https://github.com/{TRACKER_REPO})",
+            margin=(8, 8, 8, 8),
+        ),
+    ),
+    styles=dict(background="WhiteSmoke"),
+)
+
+
+results_df = results_df.interactive()
+results2_df = results_df.sort_values(multi_choice, ascending=ascending)
+
+
+out_df = (
+    results2_df.style.hide()
+    .format({"updated": "{:%Y-%m-%d}"})
+    .set_properties(**{"font-size": "1.25em"})
+    .set_table_styles(
+        [
+            {
+                "selector": "th.col_heading",
+                "props": "font-size: 1.25em;",
+            },
+            {"selector": "tr:hover", "props": "cursor: default;"},
+        ],
+    )
+)
+
+pn.Column(
+    selector,
+    pn.pane.DataFrame(out_df, escape=False),
+).servable()
