@@ -1,5 +1,4 @@
 import argparse
-import csv
 import requests
 import sys
 import os
