@@ -1,4 +1,5 @@
 import argparse
+import csv
 import requests
 import sys
 import os
@@ -92,8 +93,7 @@ results_processed = [
     {
         "pr": result["number"],
         "title": (
-            f'<a href="https://github.com/scikit-learn/scikit-learn/pull/{result["number"]}" '
-            'target="_blank">{result["title"]}</a>'
+            f"<a href='https://github.com/scikit-learn/scikit-learn/pull/{result['number']}' target='_blank'>{result['title']}</a>"
         ),
         "additions": result["additions"],
         "deletions": result["deletions"],
